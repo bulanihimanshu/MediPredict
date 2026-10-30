@@ -1,0 +1,82 @@
+MediPredict - Windows + VS Code quickstart
+=========================================
+
+Prerequisites
+-------------
+1. Install **Python 3.12** from https://www.python.org/downloads/windows/ (tick "Add python.exe to PATH").
+2. Install **Git for Windows** from https://git-scm.com/download/win.
+3. Install **VS Code** from https://code.visualstudio.com/ and add the "Python" + "GitHub Copilot" (optional) extensions.
+4. No dataset CSV is required to run the pretrained demo. For optional future
+   training, keep authorized datasets outside the repository.
+
+Clone & open the repo
+---------------------
+The URL below is the intended independent repository and will work after the
+owner creates and publishes it. For an existing local checkout, skip cloning.
+1. Open **Command Prompt** and run:
+   ```bat
+   cd %USERPROFILE%\Documents
+   git clone https://github.com/bulanihimanshu/MediPredict.git
+   cd MediPredict
+   ```
+2. Launch VS Code pointing to this folder:
+   ```bat
+   code .
+   ```
+3. When prompted in VS Code, create a Python virtual environment (or run `python -m venv .venv` then ` .venv\Scripts\activate`).
+
+Install dependencies
+--------------------
+```bat
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+Run the Streamlit app locally
+-----------------------------
+1. In VS Code, open a new terminal (``Ctrl+` ``).
+2. Activate the virtual environment if it is not active:
+   ```bat
+   .venv\Scripts\activate
+   ```
+3. Start the dashboard:
+   ```bat
+   python -m streamlit run app/dashboard.py
+   ```
+4. Open the browser tab that Streamlit prints (usually http://localhost:8501).
+
+Train the Random-Forest model on Windows
+---------------------------------------
+This is an optional experimental workflow. Check the prepared dataset's target
+definitions and compatibility with inference before using any new artifacts.
+The bundled model contains LightGBM estimators; the current trainer uses Random
+Forest and is a separate learning workflow.
+1. Prepare a CSV with the required features and targets, stored outside the
+   repository, and pass its absolute path when training.
+2. From the repo root in the activated virtual environment, run:
+   ```bat
+   python -m training.train_pipeline ^
+       --input "D:\authorized-data\prepared_training.csv" ^
+       --output models\rf_run ^
+       --readmission-target readmitted_30d ^
+       --los-target length_of_stay ^
+       --medication-target medication_change ^
+       --diagnosis-target diagnosis_group
+   ```
+   * Adjust the target column names if your CSV headers differ.
+   * The script automatically saves `multi_pipeline.pkl`, `feature_medians.json`, and `meta.json` under the `models\rf_run` folder.
+3. (Optional) If you need to merge `IDS_mapping.csv` to enrich categorical descriptions before training, prepare a new CSV with that merge logic in pandas, then feed the resulting file as `--input`.
+
+Use the trained artefacts inside VS Code
+----------------------------------------
+1. Preserve the bundled files in `models`. Any future replacement requires
+   checking that model output order, class labels, and metadata match inference.
+   Merely copying files from a training run is not sufficient validation.
+2. After any separately validated model replacement, restart Streamlit
+   (``Ctrl+C`` then re-run the dashboard command).
+
+Troubleshooting tips
+--------------------
+* If VS Code cannot find Python, set the interpreter via `Ctrl+Shift+P -> Python: Select Interpreter -> .venv`.
+* Long file paths on Windows may need quoting (`"D:\authorized-data\prepared_training.csv"`).
+* When training on large CSVs, consider running `python -m training.train_pipeline --help` to see additional flags such as `--test-size` and `--random-state`.

@@ -1,0 +1,40 @@
+# Python bytecode and local environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Test, tooling, and build outputs
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+*.log
+.ipynb_checkpoints/
+.publication-review-local/
+/PUBLICATION_REVIEW.md
+
+# Local credentials and configuration
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+.aws/
+
+# Local datasets and experimental training runs; keep shipped models tracked
+/data/
+/datasets/
+/models/*_run/
+
+# Office temporary files and OS metadata
+~$*
+*.tmp
+*.temp
+*.bak
+.DS_Store
+Thumbs.db

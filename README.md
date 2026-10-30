@@ -6,8 +6,7 @@ Healthcare Prediction System Using Machine Learning & Streamlit
 
 A small educational project for learning how to prepare structured healthcare
 features, train machine-learning models, and build a Streamlit application for
-exploring model outputs. Developed collaboratively by Arnav Meghlan, Advay Sinha, and Himanshu Bulani
-as a learning exercise, it connects a Python inference pipeline to a simple interactive dashboard.
+exploring model outputs. Developedas a learning exercise, it connects a Python inference pipeline to a simple interactive dashboard.
 
 The application explores four intended tasks: readmission within 30 days,
 length-of-stay bands, medication change, and diagnosis grouping. Outputs are
